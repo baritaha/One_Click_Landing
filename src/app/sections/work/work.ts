@@ -1,15 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, isDevMode } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
 
 import { I18nService } from '../../core/i18n/i18n.service';
 import { PROJECTS, type Platform, type Project } from '../../data/projects';
 import type { DictKey } from '../../core/i18n/en';
-import { BrowserFrame } from '../../shared/device-frame/browser-frame';
-import { PhoneFrame } from '../../shared/device-frame/phone-frame';
 import { Icon } from '../../shared/icon/icon';
-import { PhoneScene } from '../../shared/scene/phone-scene';
-import { ProductScene } from '../../shared/scene/product-scene';
 import { SectionHeading } from '../../shared/section-heading/section-heading';
+import { ProjectMedia } from './project-media';
 
 const PLATFORM_KEYS: Record<Platform, DictKey> = {
   web: 'work.platform.web',
@@ -22,7 +18,7 @@ const PLATFORM_KEYS: Record<Platform, DictKey> = {
  * layout is written with logical order it swaps again in Arabic without a
  * single extra rule.
  *
- * Each frame's contents load with `@defer (on viewport)`, so nothing below the
+ * The devices live in `ProjectMedia`. Each frame's contents load with `@defer (on viewport)`, so nothing below the
  * fold costs anything until it is nearly on screen — and the scene's assembly
  * animation starts exactly when you arrive at it.
  */
@@ -30,7 +26,7 @@ const PLATFORM_KEYS: Record<Platform, DictKey> = {
   selector: 'app-work',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'data-surface': 'salt' },
-  imports: [SectionHeading, BrowserFrame, PhoneFrame, ProductScene, PhoneScene, Icon, NgOptimizedImage],
+  imports: [SectionHeading, ProjectMedia, Icon],
   template: `
     <section id="work" class="section-pad bg-salt" aria-labelledby="work-heading">
       <div class="site-container">
@@ -52,41 +48,7 @@ const PLATFORM_KEYS: Record<Platform, DictKey> = {
             >
               <!-- ── media ── -->
               <div [class]="i % 2 === 1 ? 'lg:order-2' : ''">
-                <div class="relative pe-[7%] pb-10">
-                  <app-browser-frame tone="dark">
-                    <div class="relative aspect-[16/11] bg-white">
-                      @defer (on viewport) {
-                        @if (project.image) {
-                          <img
-                            [ngSrc]="project.image"
-                            [alt]="i18n.text(project.name)"
-                            fill
-                            sizes="(min-width: 1024px) 45vw, 92vw"
-                            class="object-cover"
-                          />
-                        } @else {
-                          <app-product-scene class="h-full" [scene]="project.scene" />
-                        }
-                      } @placeholder {
-                        <div class="absolute inset-0 bg-white"></div>
-                      }
-                    </div>
-                  </app-browser-frame>
-
-                  @if (hasMobile(project)) {
-                    <div class="absolute -bottom-6 end-0 w-[20%] min-w-[76px] max-w-[118px]">
-                      <app-phone-frame tone="dark">
-                        <div class="aspect-[9/17]">
-                          @defer (on viewport) {
-                            <app-phone-scene class="block h-full" />
-                          } @placeholder {
-                            <div class="h-full bg-white"></div>
-                          }
-                        </div>
-                      </app-phone-frame>
-                    </div>
-                  }
-                </div>
+                <app-project-media [project]="project" />
               </div>
 
               <!-- ── copy ── -->
@@ -145,10 +107,6 @@ export class Work {
   protected readonly projects = computed(() =>
     PROJECTS.filter((project) => isDevMode() || !project.isPlaceholder),
   );
-
-  protected hasMobile(project: Project): boolean {
-    return project.platforms.some((platform) => platform !== 'web');
-  }
 
   protected platformList(project: Project): string {
     const separator = this.i18n.lang() === 'ar' ? '، ' : ' · ';

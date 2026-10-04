@@ -65,6 +65,7 @@ export const en = {
   'work.features': 'Key features',
   'work.platforms': 'Platforms',
   'work.tech': 'Built with',
+  'work.appRecording': 'The {name} mobile app',
   'work.platform.web': 'Web',
   'work.platform.ios': 'iOS',
   'work.platform.android': 'Android',

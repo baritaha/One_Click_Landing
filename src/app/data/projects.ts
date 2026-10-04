@@ -14,8 +14,12 @@ export interface Project {
   scene: SceneKey;
   /** Optional real screenshot. Falls back to the SVG mockup when absent. */
   image?: string;
-  /** Optional muted loop shown inside the frame. Falls back to the mockup. */
-  video?: { mp4: string; webm: string; poster: string };
+  /**
+   * A real recording of the mobile app, 9:20 portrait. When set, the showcase
+   * puts it in a second phone in front of the drawn one. The poster shows
+   * until the video loads, and instead of it for reduced motion.
+   */
+  phoneVideo?: { mp4: string; webm: string; poster: string };
   /**
    * Hidden in production builds. Nothing is flagged right now — add a
    * half-finished case study with this set and it stays out of the live site
@@ -53,6 +57,11 @@ export const PROJECTS: readonly Project[] = [
     ],
     platforms: ['web', 'ios', 'android'],
     tech: ['.NET 8', 'Angular', 'React Native (Expo)', 'SignalR', 'RabbitMQ', 'Firebase'],
+    phoneVideo: {
+      webm: 'assets/videos/commerce-app.webm',
+      mp4: 'assets/videos/commerce-app.mp4',
+      poster: 'assets/images/commerce-app-poster.jpg',
+    },
   },
   {
     id: 'delivery',
@@ -82,5 +91,11 @@ export const PROJECTS: readonly Project[] = [
     ],
     platforms: ['web', 'ios', 'android'],
     tech: ['.NET 8', 'Angular', 'React Native (Expo)', 'Redis', 'SignalR', 'Firebase'],
+    // 432x888 — a little wider than the 9:20 screen, so cover trims the sides.
+    phoneVideo: {
+      webm: 'assets/videos/delivery-app.webm',
+      mp4: 'assets/videos/delivery-app.mp4',
+      poster: 'assets/images/delivery-app-poster.jpg',
+    },
   },
 ];

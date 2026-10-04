@@ -65,6 +65,7 @@ export const ar: Dictionary = {
   'work.features': 'أبرز المزايا',
   'work.platforms': 'المنصات',
   'work.tech': 'مبني بـ',
+  'work.appRecording': 'تطبيق {name} على الجوال',
   'work.platform.web': 'ويب',
   'work.platform.ios': 'آيفون',
   'work.platform.android': 'أندرويد',
