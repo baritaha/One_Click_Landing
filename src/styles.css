@@ -1,0 +1,225 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * OneClick design tokens (§4 of the build plan)
+ * Colors are drawn from Jordan: the Black Iris, the Dead Sea, its salt
+ * crust, eastern basalt and a small touch of Petra sandstone.
+ * ------------------------------------------------------------------ */
+@theme {
+  /* Palette */
+  --color-night: #140b2e;
+  --color-night-2: #1d1140;
+  --color-iris: #5b2bd1;
+  --color-iris-soft: #9c7bf5;
+  --color-deadsea: #22c3b0;
+  --color-deadsea-deep: #0f8f81;
+  --color-salt: #f5f7fb;
+  --color-ink: #1a1530;
+  --color-basalt: #5e6478;
+  --color-sandstone: #f0a58a;
+
+  /* Type */
+  --font-display: 'Alexandria', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
+  --font-body: 'Readex Pro', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
+
+  /* Type scale, ratio 1.25 */
+  --text-xs: 0.8rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.4rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.1875rem;
+  --text-4xl: 2.75rem;
+  --text-5xl: 3.4rem;
+
+  /* Radii — different by hierarchy, not one radius for everything */
+  --radius-input: 12px;
+  --radius-panel: 16px;
+  --radius-device: 24px;
+
+  /* Elevation — tinted with night, never neutral grey */
+  --shadow-panel: 0 1px 2px rgb(20 11 46 / 0.04), 0 8px 24px -12px rgb(20 11 46 / 0.12);
+  --shadow-float: 0 2px 4px rgb(20 11 46 / 0.06), 0 24px 60px -24px rgb(20 11 46 / 0.28);
+  --shadow-header: 0 1px 0 rgb(255 255 255 / 0.06), 0 12px 32px -20px rgb(0 0 0 / 0.8);
+
+  /* Layout */
+  --container-site: 1200px;
+  --container-prose: 72ch;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-press: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    color-scheme: light;
+    /* lets <details> animate from 0 to auto where the browser supports it */
+    interpolate-size: allow-keywords;
+    /* height of the sticky header; the anchor offset is derived from it */
+    --header-h: 4rem;
+    --anchor-gap: 1.5rem;
+    /* Arabic needs more air between lines than Latin. */
+    --line-tight: 1.05;
+    --line-body: 1.6;
+  }
+
+  :root:where([dir='rtl']) {
+    --line-tight: 1.25;
+    --line-body: 1.8;
+  }
+
+  @media (width >= 64rem) {
+    :root {
+      --header-h: 5rem;
+    }
+  }
+
+  html {
+    /* the sticky header must never cover an anchored section */
+    scroll-padding-top: calc(var(--header-h) + var(--anchor-gap));
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /*
+   * Smooth scrolling is switched on by the app, after it has landed on any
+   * opening anchor. Left on from the start, it turns the browser's initial
+   * jump to `#section` into an animation — and an animation that begins while
+   * the page is still laying out gets cancelled, dropping the visitor at the
+   * top. Off by default, every deep link lands exactly where it should, with
+   * or without JavaScript; on afterwards, every click glides.
+   */
+  html[data-smooth-scroll] {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-salt);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--line-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: var(--line-tight);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  :where([dir='rtl']) h1,
+  :where([dir='rtl']) h2,
+  :where([dir='rtl']) h3,
+  :where([dir='rtl']) h4 {
+    /* Arabic letterforms lose their shape when tracked in */
+    letter-spacing: 0;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One focus style for the whole site: the click colour. */
+  :focus-visible {
+    outline: 3px solid var(--color-deadsea);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-deadsea);
+    color: var(--color-night);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Component-level primitives used across sections
+ * ------------------------------------------------------------------ */
+@layer components {
+  .site-container {
+    width: 100%;
+    max-width: var(--container-site);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (width >= 48rem) {
+    .site-container {
+      padding-inline: 2rem;
+    }
+  }
+
+  .section-pad {
+    padding-block: 6rem; /* 96px mobile */
+  }
+
+  @media (width >= 64rem) {
+    .section-pad {
+      padding-block: 9rem; /* 144px desktop */
+    }
+  }
+
+  /*
+   * Two sections on the same surface run together into one continuous area,
+   * so stacking both of their paddings just leaves a hole. Collapse the join:
+   * the section above keeps its bottom padding and that is the whole gap.
+   */
+  [data-surface='salt'] + [data-surface='salt'] .section-pad,
+  [data-surface='night'] + [data-surface='night'] .section-pad {
+    padding-block-start: 0;
+  }
+
+  /* The faint dot grid used on night surfaces. */
+  .dot-grid {
+    background-image: radial-gradient(circle at 1px 1px, rgb(156 123 245 / 0.16) 1px, transparent 0);
+    background-size: 32px 32px;
+  }
+
+  .skip-link {
+    position: absolute;
+    inset-block-start: -100%;
+    inset-inline-start: 1rem;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    background-color: var(--color-deadsea);
+    color: var(--color-night);
+    font-weight: 500;
+  }
+
+  .skip-link:focus-visible {
+    inset-block-start: 1rem;
+  }
+}
+
+/* Arabic renders a touch small next to Latin at the same px size. */
+:where([dir='rtl']) body {
+  font-size: calc(var(--text-base) * 1.04);
+}

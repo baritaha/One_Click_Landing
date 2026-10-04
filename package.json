@@ -1,0 +1,44 @@
+{
+  "name": "oneclick-landing",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "assets:generate": "node scripts/build-logo.mjs && node scripts/generate-assets.mjs",
+    "preview": "npx --yes http-server dist/oneclick-landing/browser -p 4300 -c-1",
+    "showreel:build": "node scripts/build-showreel.mjs",
+    "logo:build": "node scripts/build-logo.mjs"
+  },
+  "private": true,
+  "packageManager": "npm@11.10.1",
+  "dependencies": {
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/platform-server": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "@angular/ssr": "^21.2.24",
+    "@tailwindcss/postcss": "^4.3.3",
+    "gsap": "^3.15.0",
+    "postcss": "^8.5.28",
+    "rxjs": "~7.8.0",
+    "tailwindcss": "^4.3.3",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.24",
+    "@angular/cli": "^21.2.24",
+    "@angular/compiler-cli": "^21.2.0",
+    "@types/node": "^20.17.19",
+    "opentype.js": "^2.0.0",
+    "prettier": "^3.8.1",
+    "sharp": "^0.35.5",
+    "simple-icons": "^16.33.0",
+    "typescript": "~5.9.2"
+  }
+}
