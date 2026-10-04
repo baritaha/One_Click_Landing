@@ -26,6 +26,7 @@ export const ar: Dictionary = {
   'common.email': 'البريد الإلكتروني',
   'common.phone': 'الهاتف',
   'common.whatsapp': 'واتساب',
+  'common.whatsappChat': 'تواصل عبر واتساب',
   'common.location': 'الموقع',
   'common.hours': 'ساعات العمل',
 
@@ -117,6 +118,8 @@ export const ar: Dictionary = {
   'contact.intro':
     'املأ هذه الحقول وأرسلها عبر واتساب أو البريد. نقرأ كل رسالة بأنفسنا ونرد خلال يوم عمل واحد.',
   'contact.direct.heading': 'أو تواصل معنا مباشرة',
+  'contact.qr.caption': 'امسح الرمز للتواصل عبر واتساب',
+  'contact.qr.alt': 'رمز QR لواتساب ون كليك',
   'contact.form.name': 'الاسم',
   'contact.form.namePlaceholder': 'اسمك الكامل',
   'contact.form.phone': 'الهاتف أو واتساب',

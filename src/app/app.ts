@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, DOCUMENT, afterNextRender, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { WhatsappFab } from './shared/whatsapp-fab/whatsapp-fab';
+
 @Component({
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet],
-  template: '<router-outlet />',
+  imports: [RouterOutlet, WhatsappFab],
+  template: '<router-outlet /><app-whatsapp-fab />',
 })
 export class App {
   private readonly document = inject(DOCUMENT);

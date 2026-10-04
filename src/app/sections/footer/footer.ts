@@ -27,7 +27,8 @@ const SOCIAL_MARKS: readonly { key: keyof typeof SITE.social; mark: LogoKey; lab
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Logo, BrandMark],
   template: `
-    <footer class="border-t border-white/10 bg-night pt-16 pb-10">
+    <!-- data-fab-avoid: the floating WhatsApp button steps aside while this is on screen -->
+    <footer class="border-t border-white/10 bg-night pt-16 pb-10" data-fab-avoid>
       <div class="site-container">
         <div class="grid gap-12 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
           <div>

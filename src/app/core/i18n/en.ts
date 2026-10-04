@@ -25,6 +25,7 @@ export const en = {
   'common.email': 'Email',
   'common.phone': 'Phone',
   'common.whatsapp': 'WhatsApp',
+  'common.whatsappChat': 'Chat on WhatsApp',
   'common.location': 'Location',
   'common.hours': 'Working hours',
 
@@ -117,6 +118,8 @@ export const en = {
   'contact.intro':
     'Fill this in and send it through WhatsApp or email. We read every message ourselves and reply within one working day.',
   'contact.direct.heading': 'Or reach us directly',
+  'contact.qr.caption': 'Scan to chat on WhatsApp',
+  'contact.qr.alt': 'WhatsApp QR code for OneClick',
   'contact.form.name': 'Name',
   'contact.form.namePlaceholder': 'Your full name',
   'contact.form.phone': 'Phone or WhatsApp',

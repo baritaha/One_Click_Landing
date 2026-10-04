@@ -37,9 +37,9 @@ export const SITE: {
   countryCode: 'JO',
 
   email: 'hello@oneclickjordan.com',
-  phone: '+962 79 584 1006',
+  phone: '+962 77 982 3860',
   /** The same number, digits only — the format a wa.me link takes. */
-  whatsappNumber: '962795841006',
+  whatsappNumber: '962779823860',
 
   workingHours: {
     en: 'Open 24 hours, 7 days a week',

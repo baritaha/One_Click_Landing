@@ -319,7 +319,8 @@ const phoneValidator: ValidatorFn = (control: AbstractControl): ValidationErrors
               </p>
             </div>
 
-            <div class="mt-7 flex flex-wrap gap-3">
+            <!-- data-fab-avoid: the floating WhatsApp button steps aside while this is on screen -->
+            <div class="mt-7 flex flex-wrap gap-3" data-fab-avoid>
               <button type="submit" appButton="primary" size="lg" [disabled]="status() === 'sending'">
                 {{ status() === 'sending' ? i18n.t('contact.sending') : i18n.t('contact.sendWhatsapp') }}
               </button>
@@ -413,6 +414,28 @@ const phoneValidator: ValidatorFn = (control: AbstractControl): ValidationErrors
                 </span>
               </li>
             </ul>
+
+            <!--
+              For someone reading on a computer: scan with the phone and the chat
+              opens there. Hidden below md — on a phone the floating WhatsApp
+              button does the same job in one tap.
+            -->
+            <figure
+              class="mt-10 hidden w-fit items-center gap-5 rounded-[var(--radius-panel)] bg-white p-4 ring-1 ring-ink/8 md:flex"
+            >
+              <img
+                src="assets/images/whatsapp-qr.webp"
+                width="480"
+                height="481"
+                loading="lazy"
+                decoding="async"
+                class="size-36 rounded-xl"
+                [alt]="i18n.t('contact.qr.alt')"
+              />
+              <figcaption class="max-w-[16ch] text-sm font-medium text-ink">
+                {{ i18n.t('contact.qr.caption') }}
+              </figcaption>
+            </figure>
           </div>
         </div>
       </div>
