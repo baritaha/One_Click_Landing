@@ -87,7 +87,7 @@ export const en = {
   // ---- about -----------------------------------------------------------
   'about.heading': 'A small team you talk to directly',
   'about.body1':
-    'We are a team of one to ten people based in Jordan. When you work with us you talk to the people who design and build your product, not to an account manager who passes messages along. OneClick was founded by software engineer Abdel-Bari Altaha and his team.',
+    'We are a team of one to ten people based in Jordan. When you work with us you talk to the people who design and build your product, not to an account manager who passes messages along.',
   'about.body2':
     'We work in Arabic and English, with clients in Jordan and across the Gulf, and we build products that read correctly in both directions from the first day.',
   'about.fact.team': 'Small, senior team',
@@ -176,9 +176,7 @@ export const en = {
   'footer.follow': 'Follow',
   'footer.madeIn': 'Made in Jordan',
   'footer.rights': '© {year} OneClick',
-  // Split around the founder's name so the name alone can become a link.
-  'footer.foundedBy': 'Founded by',
-  'footer.foundedTeam': 'and his team',
+  'footer.builtBy': 'Built by the OneClick team',
 
   // ---- 404 -------------------------------------------------------------
   'notFound.code': '404',

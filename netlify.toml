@@ -1,0 +1,66 @@
+# Netlify deployment. Everything is prerendered to static HTML — there is no
+# server or function to run.
+
+[build]
+  # `npm run build` also runs `postbuild`, which copies the prerendered error
+  # page to 404.html at the publish root.
+  command = "npm run build"
+  publish = "dist/oneclick-landing/browser"
+
+[build.environment]
+  NODE_VERSION = "22.21.0"
+
+# ── Not found ────────────────────────────────────────────────────────────────
+# 404.html at the root is served automatically for unknown URLs. Unknown URLs
+# under /ar get the Arabic error page instead. Not forced, so a real file under
+# /ar always wins.
+[[redirects]]
+  from = "/ar/*"
+  to = "/ar/404/index.html"
+  status = 404
+
+# ── Caching ──────────────────────────────────────────────────────────────────
+# Netlify joins the values of every rule that matches a path, so these rules
+# are kept from overlapping — there is deliberately no catch-all "/*" rule.
+
+# JS and CSS file names carry a content hash (outputHashing: "all"): a new
+# build means a new name, so the old one can be cached for good.
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Images, logo and videos keep fixed names (assets/videos/commerce-app.mp4…),
+# so they cannot be immutable — replacing a file would leave returning visitors
+# on the old one. A week, then revalidated in the background.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+# HTML must always be checked, so a deploy shows up on the next visit and
+# always points at the current hashed JS and CSS.
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/ar"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/ar/"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache"

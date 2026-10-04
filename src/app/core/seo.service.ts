@@ -122,6 +122,13 @@ export class SeoService {
         telephone: SITE.phone,
         areaServed: SITE.countryCode,
         availableLanguage: ['Arabic', 'English'],
+        // Open around the clock, every day — matches SITE.workingHours.
+        hoursAvailable: {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '00:00',
+          closes: '23:59',
+        },
       },
       founder: {
         '@type': 'Person',

@@ -37,32 +37,48 @@ fix that before anything else.
 
 ## Deploying
 
-`npm run build` writes plain HTML, CSS, JS and images to:
+The site is deployed to **Netlify**, and everything it needs is in
+[`netlify.toml`](netlify.toml) — connect the GitHub repo and there is nothing to
+set in the Netlify UI except the domain.
+
+`npm run build` writes plain HTML, CSS, JS and images, and its `postbuild` step
+copies the prerendered error page to `404.html`:
 
 ```
-dist/oneclick-landing/browser/
+dist/oneclick-landing/browser/      ← Netlify's publish directory
 ├── index.html          →  /
 ├── ar/index.html       →  /ar
-├── 404/index.html      →  the error page
-├── ar/404/index.html
+├── 404.html            →  served by Netlify for any unknown URL
+├── 404/index.html
+├── ar/404/index.html   →  served for unknown URLs under /ar
 ├── robots.txt
 ├── sitemap.xml
+├── main-*.js, chunk-*.js, styles-*.css   (content-hashed)
 └── assets/ …
 ```
 
-Upload the contents of `browser/` to any static host — Netlify, Vercel,
-Cloudflare Pages, GitHub Pages, S3, or plain nginx. There is nothing to run
-server-side.
+**What `netlify.toml` sets**
 
-**Two things to configure on the host:**
+| | |
+|---|---|
+| Build command | `npm run build` |
+| Publish directory | `dist/oneclick-landing/browser` |
+| Node | `NODE_VERSION = 22.21.0` |
+| Not found | `404.html` at the root (automatic), plus a non-forced `/ar/*` → `/ar/404/index.html` 404 rule for Arabic |
+| Cache: `*.js`, `*.css` | `max-age=31536000, immutable` — the names change with every build |
+| Cache: `/assets/*` | one week, then `stale-while-revalidate` — these keep fixed names, so they cannot be immutable |
+| Cache: HTML | `no-cache` — a deploy shows up on the next visit |
 
-1. **Error page** → point it at `404/index.html`.
-   - Netlify: add `public/_redirects` containing `/* /404/index.html 404`
-   - Vercel: `{ "routes": [{ "handle": "error" }, { "status": 404, "dest": "/404/index.html" }] }`
-   - nginx: `error_page 404 /404/index.html;`
-2. **Set the real domain** in `src/app/core/site.config.ts` (`siteUrl`), then run
-   `npm run assets:generate` and rebuild. Canonical URLs, `hreflang`, the sitemap
-   and `robots.txt` all read from that one value.
+Netlify joins the values of every header rule that matches a path, so the rules
+are written not to overlap — don't add a catch-all `/*` cache rule.
+
+**Changing the domain** — set `siteUrl` in `src/app/core/site.config.ts`, run
+`npm run assets:generate`, and rebuild. Canonical URLs, `hreflang`, Open Graph,
+the JSON-LD, the sitemap and `robots.txt` all read from that one value.
+
+**Another host** — nothing runs server-side, so `browser/` can go on any static
+host. Point its error page at `404.html` (nginx: `error_page 404 /404.html;`)
+and carry over the cache headers above.
 
 ---
 
@@ -77,9 +93,10 @@ them, but these are what make it true.
 2. **Testimonials** — the section is switched off until there are real quotes.
    The component and `src/app/data/testimonials.ts` are still there; the note at
    the top of `pages/home.page.ts` says how to bring it back.
-3. **Showreel** — the reel that ships is licensed stock footage of laptops and
-   dashboards. The section promises "the products and interfaces we have built",
-   so replace it with real screen recordings. See [ASSETS.md](ASSETS.md).
+3. **Showreel** — switched off, and the stock reel's files were removed; the
+   section promises "the products and interfaces we have built", so it waits for
+   real screen recordings. The component is still there, with its paths left
+   empty in `site.config.ts`. See [ASSETS.md](ASSETS.md) for how to build a reel.
 4. **Assets** — [ASSETS.md](ASSETS.md) lists every photo and video slot, with
    the licence and source of everything currently in the repo.
 

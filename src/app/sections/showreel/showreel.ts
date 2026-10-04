@@ -59,13 +59,15 @@ import { VideoDialog } from '../../shared/video-dialog/video-dialog';
         <div
           class="relative mt-12 aspect-video overflow-hidden rounded-[var(--radius-device)] bg-night shadow-[var(--shadow-float)] ring-1 ring-ink/8 lg:mt-16"
         >
-          <img
-            [ngSrc]="showreel.poster"
-            [alt]="i18n.t('showreel.dialogTitle')"
-            fill
-            sizes="(min-width: 1440px) 80vw, 95vw"
-            class="object-cover"
-          />
+          @if (showreel.poster) {
+            <img
+              [ngSrc]="showreel.poster"
+              [alt]="i18n.t('showreel.dialogTitle')"
+              fill
+              sizes="(min-width: 1440px) 80vw, 95vw"
+              class="object-cover"
+            />
+          }
 
           @defer (on viewport) {
             @if (showreel.preview.mp4 && !previewFailed() && !motion.reducedMotion()) {

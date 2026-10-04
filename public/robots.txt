@@ -3,4 +3,4 @@ Allow: /
 Disallow: /404
 Disallow: /ar/404
 
-Sitemap: https://example.com/sitemap.xml
+Sitemap: https://oneclickjordan.com/sitemap.xml

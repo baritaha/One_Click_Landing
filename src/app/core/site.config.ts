@@ -36,23 +36,24 @@ export const SITE: {
   country: { en: 'Jordan', ar: 'الأردن' },
   countryCode: 'JO',
 
-  email: 'baritaha4@gmail.com',
+  email: 'hello@oneclickjordan.com',
   phone: '+962 79 584 1006',
   /** The same number, digits only — the format a wa.me link takes. */
   whatsappNumber: '962795841006',
 
   workingHours: {
-    en: 'Sunday–Thursday, 9:00–17:00',
-    // The time range is wrapped in a bidi isolate so Arabic does not reorder
-    // it into 17:00-9:00.
-    ar: 'الأحد–الخميس، ⁦9:00–17:00⁩',
+    en: 'Open 24 hours, 7 days a week',
+    ar: 'على مدار الساعة، طوال أيام الأسبوع',
   },
 
   teamSize: { min: 1, max: 10 },
   foundedYear: null, // TODO
 
   founder: { en: 'Abdel-Bari Altaha', ar: 'عبد الباري الطه' },
-  /** Empty = the founder's name in the footer is plain text, not a link. */
+  /**
+   * The founder appears only in the JSON-LD, never on the page. When set, the
+   * profile is added to the founder's `sameAs` there.
+   */
   founderLinkedIn: '',
 
   social: {
@@ -66,30 +67,27 @@ export const SITE: {
   /** Optional POST endpoint for the contact form. Empty = WhatsApp/email only. */
   contactEndpoint: '',
 
-  siteUrl: 'https://example.com', // TODO — used for canonical, hreflang, sitemap and OG
+  siteUrl: 'https://oneclickjordan.com', // used for canonical, hreflang, sitemap and OG
 
   /**
    * Showreel sources, served from our own origin — nothing is hotlinked.
-   * The poster is a frame from the reel itself, so the still and the first
-   * frame are the same picture.
    *
-   * Setting either path back to an empty string is a supported state: nothing
-   * is requested, the poster still shows, and the dialog explains that the
-   * video is not ready. See ASSETS.md for how the reel was built.
+   * Empty for now: the stock reel was removed, and the section is switched off
+   * in pages/home.page.ts until there is real product footage. Empty paths are
+   * a supported state — nothing is requested and the dialog explains that the
+   * video is not ready. `npm run showreel:build` writes the files below; see
+   * ASSETS.md.
    */
   showreel: {
-    poster: 'assets/images/showreel-poster.webp',
+    // 'assets/images/showreel-poster.webp' — a frame from the reel itself.
+    poster: '',
     // The loop behind the play button is deliberately a separate, much smaller
     // file: it autoplays for everyone who scrolls past, so it has to be cheap.
-    preview: {
-      mp4: 'assets/videos/showreel-preview.mp4',
-      webm: 'assets/videos/showreel-preview.webm',
-    },
+    // 'assets/videos/showreel-preview.{mp4,webm}'
+    preview: { mp4: '', webm: '' },
     // The full reel, only fetched when someone presses play.
-    full: {
-      mp4: 'assets/videos/showreel.mp4',
-      webm: 'assets/videos/showreel.webm',
-    },
+    // 'assets/videos/showreel.{mp4,webm}'
+    full: { mp4: '', webm: '' },
   },
 };
 

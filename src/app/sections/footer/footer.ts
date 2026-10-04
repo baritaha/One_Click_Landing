@@ -109,21 +109,7 @@ const SOCIAL_MARKS: readonly { key: keyof typeof SITE.social; mark: LogoKey; lab
           class="mt-14 flex flex-col gap-3 border-t border-white/10 pt-7 text-sm text-white/55 sm:flex-row sm:items-center sm:justify-between"
         >
           <p>{{ i18n.t('footer.rights', { year: year }) }}</p>
-          <p>
-            {{ i18n.t('footer.foundedBy') }}
-            @if (site.founderLinkedIn) {
-              <a
-                class="text-white/70 underline underline-offset-4 transition-colors duration-200 hover:text-deadsea"
-                [href]="site.founderLinkedIn"
-                target="_blank"
-                rel="noopener noreferrer"
-                >{{ i18n.text(site.founder) }}</a
-              >
-            } @else {
-              {{ i18n.text(site.founder) }}
-            }
-            {{ i18n.t('footer.foundedTeam') }}
-          </p>
+          <p>{{ i18n.t('footer.builtBy') }}</p>
           <p>{{ i18n.t('footer.madeIn') }}</p>
         </div>
       </div>

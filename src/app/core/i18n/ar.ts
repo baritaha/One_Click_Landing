@@ -172,8 +172,7 @@ export const ar: Dictionary = {
   'footer.follow': 'تابعنا',
   'footer.madeIn': 'صُنع في الأردن',
   'footer.rights': '© {year} ون كليك',
-  'footer.foundedBy': 'أسّسها',
-  'footer.foundedTeam': 'وفريقه',
+  'footer.builtBy': 'بُني بأيدي فريق ون كليك',
 
   // ---- 404 -------------------------------------------------------------
   'notFound.code': '404',
