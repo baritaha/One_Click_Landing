@@ -41,13 +41,18 @@ The site is deployed to **Netlify**, and everything it needs is in
 [`netlify.toml`](netlify.toml) — connect the GitHub repo and there is nothing to
 set in the Netlify UI except the domain.
 
-`npm run build` writes plain HTML, CSS, JS and images, and its `postbuild` step
-copies the prerendered error page to `404.html`:
+`npm run build` writes plain HTML, CSS, JS and images. Its `postbuild` step
+([scripts/postbuild.mjs](scripts/postbuild.mjs)) then copies the prerendered
+error page to `404.html` and writes `sitemap.xml` from `prerendered-routes.json`
+— so every prerendered page is in the sitemap with its hreflang pair, and a new
+page never has to be added by hand:
 
 ```
 dist/oneclick-landing/browser/      ← Netlify's publish directory
 ├── index.html          →  /
 ├── ar/index.html       →  /ar
+├── services/<slug>/     →  one page per core service (+ ar/services/<slug>)
+├── work/<slug>/         →  one case study per product (+ ar/work/<slug>)
 ├── 404.html            →  served by Netlify for any unknown URL
 ├── 404/index.html
 ├── ar/404/index.html   →  served for unknown URLs under /ar
@@ -75,6 +80,11 @@ are written not to overlap — don't add a catch-all `/*` cache rule.
 **Changing the domain** — set `siteUrl` in `src/app/core/site.config.ts`, run
 `npm run assets:generate`, and rebuild. Canonical URLs, `hreflang`, Open Graph,
 the JSON-LD, the sitemap and `robots.txt` all read from that one value.
+
+**Adding a page** — service pages and case studies come from
+[`src/app/data/pages.ts`](src/app/data/pages.ts). A new entry there gets its
+English and Arabic routes, prerendering, homepage link and sitemap entry
+automatically.
 
 **Another host** — nothing runs server-side, so `browser/` can go on any static
 host. Point its error page at `404.html` (nginx: `error_page 404 /404.html;`)

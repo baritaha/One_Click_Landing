@@ -86,7 +86,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
     }
   `,
   template: `
-    <a class="skip-link" [href]="i18n.anchor('main')">{{ i18n.t('common.skip') }}</a>
+    <a class="skip-link" [href]="i18n.here('main')">{{ i18n.t('common.skip') }}</a>
 
     <header
       class="fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-300"

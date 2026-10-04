@@ -1,6 +1,7 @@
 import { DOCUMENT, Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
+import type { PagePaths } from './i18n/i18n.service';
 import { SITE, type Locale } from './site.config';
 
 export interface SeoInput {
@@ -11,6 +12,10 @@ export interface SeoInput {
   lang: Locale;
   /** `noindex` for pages that should stay out of search results (404). */
   noindex?: boolean;
+  /** This page in each language, for hreflang. Defaults to the home pages. */
+  alternates?: PagePaths;
+  /** Extra JSON-LD for this page (a Service, a breadcrumb…), beside the Organization. */
+  jsonLd?: Record<string, unknown> | readonly Record<string, unknown>[];
 }
 
 const OG_IMAGE = 'assets/images/og-image.png';
@@ -52,12 +57,14 @@ export class SeoService {
     this.setMeta('name', 'twitter:description', input.description);
     this.setMeta('name', 'twitter:image', image);
 
+    const alternates = input.alternates ?? { en: '/', ar: '/ar' };
     this.setLink('canonical', url);
-    this.setAlternate('en', `${base}/`);
-    this.setAlternate('ar', `${base}/ar`);
-    this.setAlternate('x-default', `${base}/`);
+    this.setAlternate('en', `${base}${alternates.en}`);
+    this.setAlternate('ar', `${base}${alternates.ar}`);
+    this.setAlternate('x-default', `${base}${alternates.en}`);
 
     this.setOrganizationJsonLd();
+    this.setJsonLd('ld-page', input.jsonLd ?? null);
   }
 
   private setMeta(kind: 'name' | 'property', key: string, content: string): void {
@@ -145,8 +152,16 @@ export class SeoService {
       data['sameAs'] = socials;
     }
 
-    const id = 'ld-organization';
+    this.setJsonLd('ld-organization', data);
+  }
+
+  /** Writes one JSON-LD block by id, or removes it when there is nothing to say. */
+  private setJsonLd(id: string, data: unknown): void {
     let script = this.document.getElementById(id) as HTMLScriptElement | null;
+    if (data === null) {
+      script?.remove();
+      return;
+    }
     if (!script) {
       script = this.document.createElement('script');
       script.id = id;

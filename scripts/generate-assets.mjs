@@ -7,7 +7,6 @@
  * Output:
  *   public/assets/images/og-image.png   1200x630, for social cards
  *   public/robots.txt
- *   public/sitemap.xml
  *   src/app/data/logo-paths.ts                (via generate-logos.mjs)
  *
  * The logo, the favicon and every app icon come from scripts/build-logo.mjs;
@@ -110,13 +109,12 @@ for (const [name, source, width, height] of targets) {
   console.log(`  ✓ ${name} — ${width}x${height}, ${(buffer.length / 1024).toFixed(1)} kB`);
 }
 
-// ───────────────────── robots.txt and sitemap.xml ─────────────────────
-// Both read `siteUrl` straight out of site.config.ts, so changing the domain in
-// one place is enough — re-run this script and they follow.
+// ──────────────────────────── robots.txt ────────────────────────────
+// Reads `siteUrl` straight out of site.config.ts, so changing the domain in
+// one place is enough — re-run this script and it follows.
 const config = readFileSync(resolve(root, 'src/app/core/site.config.ts'), 'utf8');
 const match = /siteUrl:\s*'([^']+)'/.exec(config);
 const siteUrl = (match ? match[1] : 'https://example.com').replace(/\/$/, '');
-const today = new Date().toISOString().slice(0, 10);
 
 const NL = String.fromCharCode(10);
 
@@ -133,37 +131,8 @@ const robots = [
 writeFileSync(resolve(root, 'public/robots.txt'), robots, 'utf8');
 console.log('  ✓ robots.txt');
 
-const alternates = [
-  `    <xhtml:link rel="alternate" hreflang="en" href="${siteUrl}/" />`,
-  `    <xhtml:link rel="alternate" hreflang="ar" href="${siteUrl}/ar" />`,
-  `    <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}/" />`,
-].join(NL);
-
-const urls = [`${siteUrl}/`, `${siteUrl}/ar`]
-  .map((loc) =>
-    [
-      '  <url>',
-      `    <loc>${loc}</loc>`,
-      `    <lastmod>${today}</lastmod>`,
-      '    <changefreq>monthly</changefreq>',
-      '    <priority>1.0</priority>',
-      alternates,
-      '  </url>',
-    ].join(NL),
-  )
-  .join(NL);
-
-const sitemap = [
-  '<?xml version="1.0" encoding="UTF-8"?>',
-  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
-  '        xmlns:xhtml="http://www.w3.org/1999/xhtml">',
-  urls,
-  '</urlset>',
-  '',
-].join(NL);
-
-writeFileSync(resolve(root, 'public/sitemap.xml'), sitemap, 'utf8');
-console.log('  ✓ sitemap.xml');
+// sitemap.xml is not made here: scripts/postbuild.mjs writes it after every
+// build, from the list of pages Angular actually prerendered.
 
 // Keep the inline tech marks in step with the same command.
 execFileSync(process.execPath, [resolve(here, 'generate-logos.mjs')], { stdio: 'inherit' });

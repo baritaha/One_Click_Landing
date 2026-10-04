@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, isDevMode } from '@angular/core';
 
 import { I18nService } from '../../core/i18n/i18n.service';
+import { caseStudyFor, caseStudyPaths } from '../../data/pages';
 import { PROJECTS, type Platform, type Project } from '../../data/projects';
 import type { DictKey } from '../../core/i18n/en';
 import { Icon } from '../../shared/icon/icon';
@@ -92,6 +93,17 @@ const PLATFORM_KEYS: Record<Platform, DictKey> = {
                     </li>
                   }
                 </ul>
+
+                @if (caseStudyHref(project); as href) {
+                  <a
+                    class="mt-8 inline-flex items-center gap-2 font-medium text-iris underline decoration-iris/30 underline-offset-4 transition-colors hover:decoration-iris"
+                    [href]="href"
+                  >
+                    {{ i18n.t('page.readCaseStudy') }}
+                    <span class="sr-only">: {{ i18n.text(project.name) }}</span>
+                    <app-icon class="rtl:-scale-x-100" name="arrowEnd" [size]="16" />
+                  </a>
+                }
               </div>
             </article>
           }
@@ -107,6 +119,11 @@ export class Work {
   protected readonly projects = computed(() =>
     PROJECTS.filter((project) => isDevMode() || !project.isPlaceholder),
   );
+
+  protected caseStudyHref(project: Project): string | null {
+    const study = caseStudyFor(project.id);
+    return study ? caseStudyPaths(study.slug)[this.i18n.lang()] : null;
+  }
 
   protected platformList(project: Project): string {
     const separator = this.i18n.lang() === 'ar' ? '، ' : ' · ';

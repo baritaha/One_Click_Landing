@@ -2,8 +2,9 @@
 # server or function to run.
 
 [build]
-  # `npm run build` also runs `postbuild`, which copies the prerendered error
-  # page to 404.html at the publish root.
+  # `npm run build` also runs `postbuild` (scripts/postbuild.mjs), which copies
+  # the prerendered error page to 404.html and writes sitemap.xml from the list
+  # of prerendered pages.
   command = "npm run build"
   publish = "dist/oneclick-landing/browser"
 

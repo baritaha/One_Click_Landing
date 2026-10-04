@@ -6,6 +6,11 @@ import { en, type DictKey, type Dictionary } from './en';
 
 const DICTIONARIES: Record<Locale, Dictionary> = { en, ar };
 
+/** One page's path in each language, e.g. `/services/ecommerce` and `/ar/services/ecommerce`. */
+export type PagePaths = Record<Locale, string>;
+
+const HOME: PagePaths = { en: '/', ar: '/ar' };
+
 /**
  * Holds the active language, translates keys, and keeps `<html lang>` and
  * `<html dir>` in sync. The language comes from the route (`/` = English,
@@ -16,20 +21,24 @@ export class I18nService {
   private readonly document = inject(DOCUMENT);
 
   private readonly current = signal<Locale>('en');
+  private readonly page = signal<PagePaths>(HOME);
 
   readonly lang = this.current.asReadonly();
   readonly dir = computed<'ltr' | 'rtl'>(() => (this.current() === 'ar' ? 'rtl' : 'ltr'));
   readonly isRtl = computed(() => this.current() === 'ar');
   readonly otherLang = computed<Locale>(() => (this.current() === 'ar' ? 'en' : 'ar'));
 
-  /** Route path for the other language, e.g. `/ar` or `/`. */
-  readonly otherLangPath = computed(() => (this.current() === 'ar' ? '/' : '/ar'));
+  /** This page in the other language, e.g. `/ar/services/ecommerce`. */
+  readonly otherLangPath = computed(() => this.page()[this.otherLang()]);
 
-  /** Route path for the page we are on. */
-  readonly path = computed(() => (this.current() === 'ar' ? '/ar' : '/'));
+  /** The home page in the current language — where the sections live. */
+  readonly path = computed(() => HOME[this.current()]);
+
+  /** The page we are on, in the current language. */
+  readonly pagePath = computed(() => this.page()[this.current()]);
 
   /**
-   * Href for an in-page section link.
+   * Href for a home page section link (Services, Work, Contact…).
    *
    * A bare `#services` looks like it stays put, but `<base href="/">` makes the
    * browser resolve it against the site root — so on `/ar` every anchor on the
@@ -38,6 +47,20 @@ export class I18nService {
    */
   anchor(id: string): string {
     return `${this.path()}#${id}`;
+  }
+
+  /** Href for a spot on the current page — the skip link, say. */
+  here(id: string): string {
+    return `${this.pagePath()}#${id}`;
+  }
+
+  /**
+   * Language plus this page's path in both languages, so the language switch
+   * lands on the same page instead of the other home page. Defaults to home.
+   */
+  setPage(lang: Locale, paths: PagePaths = HOME): void {
+    this.page.set(paths);
+    this.setLang(lang);
   }
 
   /**

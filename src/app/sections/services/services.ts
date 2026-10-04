@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
 import { I18nService } from '../../core/i18n/i18n.service';
+import { servicePageFor, servicePaths } from '../../data/pages';
 import { SERVICES } from '../../data/services';
 import { Icon } from '../../shared/icon/icon';
 import { SectionHeading } from '../../shared/section-heading/section-heading';
@@ -131,6 +132,17 @@ import { ServiceArt } from '../../shared/service-art/service-art';
                           </li>
                         }
                       </ul>
+
+                      @if (pageHref(service.id); as href) {
+                        <a
+                          class="mt-8 inline-flex items-center gap-2 font-medium text-iris underline decoration-iris/30 underline-offset-4 transition-colors hover:decoration-iris"
+                          [href]="href"
+                        >
+                          {{ i18n.t('services.learnMore') }}
+                          <span class="sr-only">: {{ i18n.text(service.title) }}</span>
+                          <app-icon class="rtl:-scale-x-100" name="arrowEnd" [size]="16" />
+                        </a>
+                      }
                     </div>
 
                     <app-service-art
@@ -150,6 +162,12 @@ import { ServiceArt } from '../../shared/service-art/service-art';
 export class Services {
   protected readonly i18n = inject(I18nService);
   protected readonly services = SERVICES;
+
+  /** The service's own page, for the four core services that have one. */
+  protected pageHref(serviceId: string): string | null {
+    const page = servicePageFor(serviceId);
+    return page ? servicePaths(page.slug)[this.i18n.lang()] : null;
+  }
 
   private readonly openId = signal(SERVICES[0].id);
 

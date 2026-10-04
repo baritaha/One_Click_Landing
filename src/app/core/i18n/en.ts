@@ -171,6 +171,21 @@ export const en = {
   'contact.mail.label.message': 'Message',
   'contact.mail.intro': 'New project enquiry from the OneClick website',
 
+  // ---- standalone pages (services, case studies) ------------------------
+  'page.breadcrumb': 'Breadcrumb',
+  'page.home': 'Home',
+  'page.process': 'How the project runs',
+  'page.timing': 'Timeline and price',
+  'page.ctaBody':
+    'Send us a few lines about your project on WhatsApp or through the form. We read every message ourselves and reply within one working day.',
+  'page.caseStudy': 'Case study',
+  'page.relatedWork': 'See it in a real project',
+  'page.readCaseStudy': 'Read the case study',
+  'page.otherServices': 'Other services',
+  'page.ourServices': 'Our services',
+  'page.moreWork': 'More work',
+  'services.learnMore': 'More about this service',
+
   // ---- footer ----------------------------------------------------------
   'footer.tagline':
     'A software company in Jordan building websites, mobile apps and business systems.',

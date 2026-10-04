@@ -168,6 +168,21 @@ export const ar: Dictionary = {
   'contact.mail.label.message': 'الرسالة',
   'contact.mail.intro': 'طلب مشروع جديد من موقع ون كليك',
 
+  // ---- standalone pages (services, case studies) ------------------------
+  'page.breadcrumb': 'مسار التنقل',
+  'page.home': 'الرئيسية',
+  'page.process': 'كيف يسير المشروع',
+  'page.timing': 'المدة والسعر',
+  'page.ctaBody':
+    'أرسل لنا بضعة أسطر عن مشروعك عبر واتساب أو من خلال النموذج. نقرأ كل رسالة بأنفسنا ونرد خلال يوم عمل واحد.',
+  'page.caseStudy': 'دراسة حالة',
+  'page.relatedWork': 'شاهدها في مشروع حقيقي',
+  'page.readCaseStudy': 'اقرأ دراسة الحالة',
+  'page.otherServices': 'خدمات أخرى',
+  'page.ourServices': 'خدماتنا',
+  'page.moreWork': 'أعمال أخرى',
+  'services.learnMore': 'المزيد عن هذه الخدمة',
+
   // ---- footer ----------------------------------------------------------
   'footer.tagline': 'شركة برمجيات في الأردن تبني المواقع وتطبيقات الجوال وأنظمة الشركات.',
   'footer.sections': 'أقسام الموقع',

@@ -80,7 +80,7 @@ export class NotFoundPage {
 
   constructor() {
     const lang = (this.route.snapshot.data['lang'] as Locale | undefined) ?? 'en';
-    this.i18n.setLang(lang);
+    this.i18n.setPage(lang);
     this.seo.apply({
       title: this.i18n.t('meta.notFound.title'),
       description: this.i18n.t('meta.notFound.description'),
